@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html lang="ur">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آن لائن شاپنگ - Online Shopping</title>
+    <title>Online Store - Safe Payments</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
         }
         
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            direction: ltr;
         }
         
         .container {
@@ -53,6 +54,7 @@
             justify-content: center;
             font-size: 14px;
             color: #666;
+            border: 2px dashed #ccc;
         }
         
         .price {
@@ -101,16 +103,19 @@
             cursor: pointer;
             margin-top: 10px;
             font-weight: bold;
+            transition: all 0.3s;
         }
         
         .pay-btn:hover {
             background: linear-gradient(135deg, #45a049, #4CAF50);
+            transform: translateY(-2px);
         }
         
         .payment-options {
             display: flex;
             justify-content: space-between;
             margin: 20px 0;
+            gap: 10px;
         }
         
         .payment-option {
@@ -120,7 +125,7 @@
             border-radius: 8px;
             cursor: pointer;
             flex: 1;
-            margin: 0 5px;
+            transition: all 0.3s;
         }
         
         .payment-option.active {
@@ -134,27 +139,31 @@
             color: #666;
             font-size: 12px;
         }
+        
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">
-            <h1>🛒 میرا کاروبار</h1>
-            <p>آن لائن شاپنگ</p>
+            <h1>🛒 My Online Store</h1>
+            <p>Secure Online Shopping</p>
         </div>
         
         <div class="product">
             <div class="product-img">
-                [اپنی مصنوعات کی تصویر]
+                [Your Product Image]
             </div>
-            <h2>مصنوعات کا نام</h2>
-            <p>مصنوعات کی تفصیل یہاں لکھیں</p>
-            <div class="price">₹ 1,500</div>
+            <h2>Product Name</h2>
+            <p>High quality product description here</p>
+            <div class="price">Rs 1,500</div>
         </div>
         
         <div class="payment-options">
             <div class="payment-option active" onclick="selectPayment('card')">
-                💳 کارڈ
+                💳 Credit Card
             </div>
             <div class="payment-option" onclick="selectPayment('jazzcash')">
                 📱 JazzCash
@@ -166,64 +175,75 @@
         
         <form class="payment-form" id="paymentForm">
             <div class="form-group">
-                <label for="name">آپ کا نام:</label>
-                <input type="text" id="name" placeholder="نام لکھیں" required>
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
             </div>
             
             <div class="form-group">
-                <label for="email">ای میل:</label>
-                <input type="email" id="email" placeholder="email@example.com" required>
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" placeholder="your@email.com" required>
             </div>
             
             <div class="form-group">
-                <label for="phone">فون نمبر:</label>
+                <label for="phone">Phone Number:</label>
                 <input type="tel" id="phone" placeholder="0300 1234567" required>
             </div>
             
             <div id="cardFields">
                 <div class="form-group">
-                    <label for="card">کارڈ نمبر:</label>
+                    <label for="card">Card Number:</label>
                     <input type="text" id="card" placeholder="1234 5678 9012 3456">
                 </div>
                 
                 <div class="form-group">
-                    <label for="expiry">اخری تاریخ:</label>
+                    <label for="expiry">Expiry Date:</label>
                     <input type="text" id="expiry" placeholder="MM/YY">
                 </div>
                 
                 <div class="form-group">
-                    <label for="cvv">CVV:</label>
+                    <label for="cvv">CVV Code:</label>
                     <input type="text" id="cvv" placeholder="123">
                 </div>
             </div>
             
+            <div id="mobileFields" class="hidden">
+                <div class="form-group">
+                    <label for="mobileAccount">Mobile Account Number:</label>
+                    <input type="text" id="mobileAccount" placeholder="03XX XXXXXXX">
+                </div>
+            </div>
+            
             <button type="button" class="pay-btn" onclick="processPayment()">
-                ✅ ادائیگی کریں - ₹ 1,500
+                ✅ Pay Now - Rs 1,500
             </button>
         </form>
         
         <div class="footer">
-            <p>✔️ 100% محفوظ ادائیگی | ✔️ وارنٹی شامل</p>
-            <p>📞 ہیلپ لائن: 0300-1234567</p>
+            <p>✔️ 100% Secure Payment | ✔️ Money Back Guarantee</p>
+            <p>📞 Support: 0300-1234567</p>
         </div>
     </div>
 
     <script>
         function selectPayment(method) {
-            // تمام آپشنز سے active کلاس ہٹائیں
+            // Remove active class from all options
             document.querySelectorAll('.payment-option').forEach(option => {
                 option.classList.remove('active');
             });
             
-            // منتخب آپشن کو active کریں
+            // Add active class to selected option
             event.target.classList.add('active');
             
-            // فیلڈز کو اپ ڈیٹ کریں
+            // Show/hide fields based on selection
             const cardFields = document.getElementById('cardFields');
+            const mobileFields = document.getElementById('mobileFields');
+            
             if (method === 'card') {
                 cardFields.style.display = 'block';
+                mobileFields.style.display = 'none';
             } else {
                 cardFields.style.display = 'none';
+                mobileFields.style.display = 'block';
             }
         }
         
@@ -233,17 +253,18 @@
             const phone = document.getElementById('phone').value;
             
             if (!name || !email || !phone) {
-                alert('براہ کرم تمام معلومات درج کریں');
+                alert('Please fill in all required information');
                 return;
             }
             
-            // یہاں آپ اپنا پییمنٹ پروسیسنگ کوڈ شامل کریں گے
-            alert('شکریہ! آپ کی ادائیگی پروسیس ہو رہی ہے۔');
+            // Show success message
+            alert('Thank you! Your payment is being processed.\nWe will contact you shortly.');
             
-            // Stripe, PayPal یا JazzCash API کو کال کریں گے
+            // Here you would integrate with Stripe, PayPal, JazzCash API
+            console.log('Payment processing started for:', name, email, phone);
         }
         
-        // ابتدائی سیٹ اپ
+        // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             selectPayment('card');
         });
